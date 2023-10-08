@@ -1,4 +1,4 @@
-package amy;
+package amypractice;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -25,7 +25,7 @@ public class Sort {
     }
 
     public static int[] genArr() {
-        int size = 10; // 数组大小
+        int size = 20; // 数组大小
         int min = 10; // 随机数最小值
         int max = 99; // 随机数最大值
         int[] array = new int[size];
