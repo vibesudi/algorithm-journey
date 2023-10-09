@@ -8,6 +8,17 @@ import java.util.Random;
  */
 public class Sort {
     public static void main(String[] args) {
+        //m1();
+        m2();
+
+    }
+
+    public static void m2() {
+        int a= (int) (7.9/2);
+        System.out.println(a);
+    }
+
+    public static void m1() {
         int[] array = genArr();
         System.out.println(Arrays.toString(array));
         //array = bubbleSort(array);
@@ -15,7 +26,6 @@ public class Sort {
         array = insertionSort(array);
 
         System.out.println(Arrays.toString(array));
-
     }
 
     public static void swap(int[] arr, int i, int j) {

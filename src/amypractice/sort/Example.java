@@ -56,7 +56,7 @@ public abstract class Example {
         // 从标准输入读取字符串，将他们排序并输出
         // String[] a = new In().readAllStrings();
         Integer[] a = genArr();
-        Quick.sort(a);
+        //Quick.sort(a);
         sort(a);
         assert isSorted(a);
         show(a);
