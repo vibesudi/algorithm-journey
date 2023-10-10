@@ -13,9 +13,6 @@ import java.util.PriorityQueue;
 // 现在，从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号
 // 如果不能使所有节点收到信号，返回 -1
 // 测试链接 : https://leetcode.cn/problems/network-delay-time
-// 本题给的数据量太小了，什么解法都能通过
-// 打败比例最高的解，居然是用邻接矩阵建图的解
-// 而邻接矩阵建图的解毫无意义，点的数量一大就无法通过了
 public class Code01_DijkstraLeetcode {
 
 	// 动态建图+普通堆的实现
@@ -33,31 +30,56 @@ public class Code01_DijkstraLeetcode {
 		boolean[] visited = new boolean[n + 1];
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 		heap.add(new int[] { k, 0 });
-		int nodeCnt = 0;
-		int max = 0;
-		while (!heap.isEmpty() && nodeCnt < n) {
+		while (!heap.isEmpty()) {
 			int[] record = heap.poll();
 			int cur = record[0];
-			int delay = record[1];
+			int cost = record[1];
 			if (visited[cur]) {
 				continue;
 			}
 			visited[cur] = true;
-			nodeCnt++;
-			max = Math.max(max, delay);
 			for (int[] edge : graph.get(cur)) {
 				int v = edge[0];
 				int w = edge[1];
-				if (!visited[v] && delay + w < distance[v]) {
-					distance[v] = delay + w;
-					heap.add(new int[] { v, delay + w });
+				if (!visited[v] && cost + w < distance[v]) {
+					distance[v] = cost + w;
+					heap.add(new int[] { v, cost + w });
 				}
 			}
 		}
-		return nodeCnt < n ? -1 : max;
+		int ans = Integer.MIN_VALUE;
+		for (int i = 1; i <= n; i++) {
+			if (distance[i] == Integer.MAX_VALUE) {
+				return -1;
+			}
+			ans = Math.max(ans, distance[i]);
+		}
+		return ans;
 	}
 
 	// 链式前向星+反向索引堆的实现
+	public static int networkDelayTime2(int[][] times, int n, int k) {
+		build(n);
+		for (int[] edge : times) {
+			addEdge(edge[0], edge[1], edge[2]);
+		}
+		addOrUpdateOrIgnore(k, 0);
+		while (!isEmpty()) {
+			int v = pop();
+			for (int ei = head[v]; ei > 0; ei = next[ei]) {
+				addOrUpdateOrIgnore(to[ei], distance[v] + weight[ei]);
+			}
+		}
+		int ans = Integer.MIN_VALUE;
+		for (int i = 1; i <= n; i++) {
+			if (distance[i] == Integer.MAX_VALUE) {
+				return -1;
+			}
+			ans = Math.max(ans, distance[i]);
+		}
+		return ans;
+	}
+
 	public static int MAXN = 101;
 
 	public static int MAXM = 6001;
@@ -76,6 +98,9 @@ public class Code01_DijkstraLeetcode {
 	// 反向索引堆
 	public static int[] heap = new int[MAXN];
 
+	// where[v] = -1，表示v这个节点，从来没有进入过堆
+	// where[v] = -2，表示v这个节点，已经弹出过了
+	// where[v] = i(>=0)，表示v这个节点，在堆上的i位置
 	public static int[] where = new int[MAXN];
 
 	public static int heapSize;
@@ -149,25 +174,6 @@ public class Code01_DijkstraLeetcode {
 		heap[j] = tmp;
 		where[heap[i]] = i;
 		where[heap[j]] = j;
-	}
-
-	public static int networkDelayTime2(int[][] times, int n, int k) {
-		build(n);
-		for (int[] edge : times) {
-			addEdge(edge[0], edge[1], edge[2]);
-		}
-		addOrUpdateOrIgnore(k, 0);
-		int nodeCnt = 0;
-		int max = 0;
-		while (!isEmpty()) {
-			int v = pop();
-			nodeCnt++;
-			max = Math.max(max, distance[v]);
-			for (int ei = head[v]; ei > 0; ei = next[ei]) {
-				addOrUpdateOrIgnore(to[ei], distance[v] + weight[ei]);
-			}
-		}
-		return nodeCnt < n ? -1 : max;
 	}
 
 }
