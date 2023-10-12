@@ -76,31 +76,36 @@ public class Quick_ {
         Comparable v = a[lo]; // 切分元素
 
         boolean isexch = false;
-        while (true) { 
 
+        while (true) { // v = lo 处的值 。lo+1 = i ->... ... <- j = hi, 从左侧找到第一大于V的值。从右侧找出第一个小于V的值，交换下标。继续查找直到
+            //isexch = false;
             // find item on lo to swap
-            while (less(a[++i], v))
+            while (less(a[++i], v)){
                 if (i == hi) break;
+            }
 
             // find item on hi to swap
-            while (less(v, a[--j]))
+            while (less(v, a[--j])){
                 if (j == lo) break;      // redundant since a[lo] acts as sentinel
+            }
 
             // check if pointers cross
-            if (i >= j) break;
+            if (i >= j) {
+                break; // 调出 line 79 处的while 循环
+            }
 
             exch(a, i, j);
             if(!isexch){
                 //StdOut.printf("time %d: \n", time);
                 isexch = true;
             }
-
-            StdOut.printf("O i %2d, j %2d :", i, j);
+            StdOut.printf("A i %2d, j %2d :", i, j); // A 内循环标记
             show(a);
         }
 
         // put partitioning item v at a[j]
         exch(a, lo, j);
+        StdOut.printf("B i %2d, j %2d :", i, j); // B 外部循环标记
         show(a);
 
         //StdOut.printf("X i %d, j %d :", time, i, j);show(a);

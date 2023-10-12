@@ -23,6 +23,7 @@ public class SortCompare {
         if (alg.equals("Merge")) Merge.sort(a);
         if (alg.equals("Quick")) Quick_.sort(a);
         if (alg.equals("Heap")) Heap.sort(a);
+        Quick.sort(a);
         return timer.elapsedTime();
     }
 
@@ -33,7 +34,7 @@ public class SortCompare {
         if (needAutoInit) {
             a = new Integer[N];
         } else {
-            a = new Integer[]{20, 93, 69, 52, 15, 11, 44, 92, 41, 18};
+            a = new Integer[]{20, 93, 69, 52, 17 ,15, 11, 44, 92, 41, 18};
         }
         for (int t = 0; t < T; t++) {  // 进行一次测试（生成一个数组并排序)
             if (needAutoInit) {
