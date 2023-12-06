@@ -1,9 +1,11 @@
 package amypractice.algs4;
 
+import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.awt.*;
+import java.util.Date;
 
 /**
  * 临时类，写一些小测试
@@ -11,7 +13,22 @@ import java.awt.*;
 public class ATemp {
 
     public static void main(String[] args) {
-        m2();
+//        // m2();
+//        String a = new String("asdacsxdsdg");
+//        //Date a;
+//        System.out.println(a.hashCode());
+//        a = "0123456789";
+//        System.out.println(a.substring(1, 5));
+        // -----------
+        Bag bag = new Bag();
+        bag.add(1);
+        bag.add("123");
+        bag.add("456");
+        bag.add("789");
+        bag.add("JQK");
+        for (Object o : bag) {
+            System.out.println(o);
+        }
 
     }
 
